@@ -3,9 +3,15 @@ import threading
 import time
 
 from flask import Flask, jsonify
-
-
 from flask_cors import CORS
+
+from database import init_database, get_connection
+from simulator import simulate_readings
+from ml_model import (
+    predict_time_to_full,
+    get_priority,
+    get_model_evaluation
+)
 
 app = Flask(__name__)
 
@@ -20,19 +26,8 @@ CORS(app, resources={
     }
 })
 
-from database import init_database, get_connection
-from simulator import simulate_readings
-from ml_model import (
-    predict_time_to_full,
-    get_priority,
-    get_model_evaluation
-)
-
-
-app = Flask(__name__)
-CORS(app)
-
 init_database()
+
 
 
 def get_bins():
