@@ -33,10 +33,10 @@ import {
   Cell
 } from "recharts";
 
-const PUBLIC_API = "https://smartwaste-ai-hlg8.onrender.com";
+const PUBLIC_API = "https://smartwaste-ai-h1g8.onrender.com";
 
 const API = (
-  import.meta.env.VITE_API_URL ||
+  import.meta.env.VITE_API_URL?.trim() ||
   (window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:5000"
@@ -947,7 +947,7 @@ export default function App() {
               <span
                 className={`sw-dot ${error ? "offline" : ""}`}
               />
-              {error ? "Disconnected" : "Live Simulation"}
+              {error ? "Disconnected" : lastUpdate ? "Live Simulation" : "Connecting"}
             </span>
 
             <button className="sw-btn" onClick={refresh}>
@@ -993,26 +993,26 @@ export default function App() {
             <div className="sw-grid">
               <Metric
                 title="Total Smart Bins"
-                value={bins.length}
+                value={lastUpdate ? bins.length : "—"}
                 detail="Virtual sensor devices"
                 icon={Trash2}
               />
               <Metric
                 title="Average Fill Level"
-                value={`${number(avgFill)}%`}
+                value={lastUpdate ? `${number(avgFill)}%` : "—"}
                 detail="Across all bins"
                 icon={Gauge}
               />
               <Metric
                 title="Current Waste Load"
-                value={`${number(totalWaste)} kg`}
+                value={lastUpdate ? `${number(totalWaste)} kg` : "—"}
                 detail="Simulated waste weight"
                 icon={Weight}
               />
               <Metric
                 title="Critical Bins"
-                value={critical}
-                detail={`${alerts.length} active alerts`}
+                value={lastUpdate ? critical : "—"}
+                detail={lastUpdate ? `${alerts.length} active alerts` : "Alerts pending"}
                 icon={AlertTriangle}
               />
             </div>
