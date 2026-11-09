@@ -3,7 +3,22 @@ import threading
 import time
 
 from flask import Flask, jsonify
+
+
 from flask_cors import CORS
+
+app = Flask(__name__)
+
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "https://smart-waste-ai-lyart.vercel.app",
+            "https://vercel.com"
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 from database import init_database, get_connection
 from simulator import simulate_readings
